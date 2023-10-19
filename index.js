@@ -6,6 +6,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const bodyParser = require("body-parser");
 const expressValidator = require("express-validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const fs = require("fs");
 const cookieParser = require("cookie-parser");
@@ -24,6 +26,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+const postRoutes = require("./routes/posts");
+
+app.use("/", postRoutes);
 
 app.get("/", (req, res) => {
   fs.readFile("docs/apiDocs.json", (err, data) => {
