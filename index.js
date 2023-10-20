@@ -27,8 +27,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 const postRoutes = require("./routes/posts");
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/users");
 
 app.use("/", postRoutes);
+app.use("/", authRoutes);
+app.use("/", userRoutes);
 
 app.get("/", (req, res) => {
   fs.readFile("docs/apiDocs.json", (err, data) => {
