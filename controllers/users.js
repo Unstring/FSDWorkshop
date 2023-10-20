@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const _ = require("lodash");
-const User = require("../model/user.js");
+const User = require("../model/user");
 
 exports.userById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
@@ -11,6 +11,16 @@ exports.userById = (req, res, next, id) => {
     req.profile = user;
     next();
   });
+};
+exports.hasAuthorization = (req, res) => {
+  const authorized =
+    req.profile && req.auth && req.profile._id === req.auth._id;
+
+  if (!authorized) {
+    return res
+      .status(403)
+      .json({ error: "user is not authorized to perform this action" });
+  }
 };
 exports.allUsers = (req, res, next) => {
   User.find((err, user) => {
